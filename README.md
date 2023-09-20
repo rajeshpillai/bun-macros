@@ -1,7 +1,7 @@
 # TODO
 - ERROR: ERROR::READING:  EBADF: Bad file descriptor  (Bun is unable to read files)
-- Bun.file not working on ubuntu
-- Run build not working
+- Bun.file not working on ubuntu so using fsPromises.readFile()
+- Run build not working (fsPromises.readFile() waits infinitely)
 # bun-macros
 
 To install dependencies:

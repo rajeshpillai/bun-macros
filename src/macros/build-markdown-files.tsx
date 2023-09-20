@@ -25,7 +25,9 @@ export async function buildMarkdownFiles() {
   
       // Read the md file
       try {
+        console.log(`About to read file ${docsDir}/${file} begins...`);
         const md = await fsPromises.readFile(`${docsDir}/${file}`, 'utf8');
+        console.log(`Parsing file ${docsDir}/${file} begins...`);
         const content = parse(md);
         const parsedHTML = pageTemplate(
           <div class="mx-auto prose prose-invert"
