@@ -28,7 +28,7 @@ export async function buildMarkdownFiles() {
         const md = await fsPromises.readFile(`${docsDir}/${file}`, 'utf8');
         const content = parse(md);
         const parsedHTML = pageTemplate(
-          <div class="prose prose-invert"
+          <div class="mx-auto prose prose-invert"
             dangerouslySetInnerHTML={{__html: content}}>
           </div>
         );

@@ -1,6 +1,7 @@
 # TODO
 - ERROR: ERROR::READING:  EBADF: Bad file descriptor  (Bun is unable to read files)
 - Bun.file not working on ubuntu
+- Run build not working
 # bun-macros
 
 To install dependencies:

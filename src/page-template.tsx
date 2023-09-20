@@ -6,9 +6,10 @@ export default (content: HtmlEscapedString) => {
       <head>
         <title>Docs</title> 
         <link rel="stylesheet" href="/public/styles.css" />
+        <script src="/public/htmx.min.js"></script>
         <meta name="view-transition" content="same-origin" />
       </head>
-      <body class="mx-auto max-w-5xl bg-black text-white text-3xl">
+      <body class="mx-auto max-w-5xl bg-black text-white text-3xl" htmx-boost="true">
         <div class="mb-4 border-gray-700 border-b-2">
           <a href="/">Home</a>
         </div>
