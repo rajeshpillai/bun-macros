@@ -30,7 +30,7 @@ app.get("/", async (c) =>
             </li>
           ))}
       </ul>
-      <button hx-target="#module-sizes" hx-get="/node-module-sizes" hx-trigger="click">
+      <button hx-target="#module-sizes" hx-get="/node-module-sizes" hx-trigger="click" class ="btn btn-primary">
           Get Module Sizes
       </button>
       <div id="module-sizes"></div>
@@ -43,23 +43,32 @@ app.get("/node-module-sizes", async (c) =>
     c.html((
       <div class="max-w-lg">
         {(await getNodeModuleSizes()).map(({size, module, percent}) => (
-          <div class="flex text-xs gap-2 my-1">
-            <div class="flex-[0-5]">{module}</div> 
-            <div class="flex-[0-3] w-full bg-gray-200 rounded-full dark:bg-gray-700">
-              <div class="bg-blue-600 font-medium text-blue-100 text-center p-0.5 leading-none">
-                {/* You might want to display the 'percent' or some other value here */}
+          <div class="flex items-center text-xs gap-2 my-2">
+            {/* Module Name */}
+            <div class="flex-none w-1/4 truncate">{module}</div> 
+            
+            {/* Progress Bar */}
+            <div class="flex-grow bg-gray-200 rounded-full dark:bg-gray-700 relative h-5">
+                <div 
+                    class="absolute left-0 top-0 h-full bg-blue-600 rounded-full" 
+                    style={{width: `${percent}%`}}
+                ></div>
+            </div>
+            
+            {/* Percentage */}
+            <div class="flex-none w-1/6 pl-2">
+                {percent}%
+            </div>
+
+            {/* Size */}
+            <div class="flex-none w-1/4 pl-2">
                 {size}
-              </div>
-              <div class="flex-[0-2]">
-                {size}
-              </div>
             </div>
           </div>
         ))}
       </div>
     ))
 );
-
 
 
 export default app;
