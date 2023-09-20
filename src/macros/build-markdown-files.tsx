@@ -3,6 +3,8 @@ const fsPromises = require('fs/promises');
 
 import {parse} from "marked";
 
+import pageTemplate from "../page-template.tsx";
+
 export async function buildMarkdownFiles() {
   const docsDir = `${process.cwd()}/docs`;
   console.log("docsDir: ", docsDir);
@@ -24,9 +26,16 @@ export async function buildMarkdownFiles() {
       // Read the md file
       try {
         const md = await fsPromises.readFile(`${docsDir}/${file}`, 'utf8');
-        console.log("FILE CONTENT: ", md);
         const content = parse(md);
-        await fsPromises.writeFile(`${docsHtmlDir}/${baseName}.html`, content);
+        const parsedHTML = pageTemplate(
+          <div class="prose prose-invert"
+            dangerouslySetInnerHTML={{__html: content}}>
+          </div>
+        );
+
+        await fsPromises.writeFile(`${docsHtmlDir}/${baseName}.html`, 
+          parsedHTML.toString()
+        );
       } catch(e) {
         console.error("ERROR CATCH: ", e);
       }
