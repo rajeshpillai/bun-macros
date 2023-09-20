@@ -1,0 +1,47 @@
+import {readdirSync, mkdirSync, existsSync, copyFileSync, copyFile}  from "fs";
+import {parse} from "marked";
+
+export async function buildMarkdownFiles() {
+  const docsDir = `${process.cwd()}/docs`;
+  // create directory for html
+  const docsHtmlDir = `${process.cwd()}/docs-html`;
+  console.log("DIR: ", docsHtmlDir, import.meta.dir);
+  if (!existsSync(docsHtmlDir)) {
+    mkdirSync(docsHtmlDir);
+  }
+  
+  const pages: string[]  = [];
+  
+  for (const file of readdirSync(docsDir)) {
+    if (file.endsWith(".md")) {
+      console.log(`Reading ${file}`);
+      const baseName = file.replace(".md", "");
+      pages.push(baseName);
+  
+      // Read the md file
+      try {
+        const filePath = `${docsDir}/${file}`;
+        const mdFile = await Bun.file(filePath, { type: "text/markdown" });
+        console.log("FILE: ", filePath, mdFile, mdFile.type);
+        let content = "";
+        try {
+          console.log("Parsing markdown...");
+          const md = await mdFile.text();
+          content = parse(md);
+        } catch (e) {
+          console.log("ERROR::READING: ", e);
+        }
+
+        console.log("CONTENT: ", content);
+        Bun.write(`${docsHtmlDir}/${baseName}.html`, content);
+      } catch(e) {
+        console.error("ERROR CATCH: ", e);
+      }
+    } else {
+      // Non md file (images etc)
+      copyFileSync(`${docsDir}/${file}`, `${docsHtmlDir}/${file}`);
+    }
+
+  }
+  return pages;
+}
